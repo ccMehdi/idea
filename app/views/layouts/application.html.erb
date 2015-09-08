@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ideas</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script>
+  $(document).ready(function(){
+      $("button").click(function(){
+          $("#newFormId").toggle();
+      });
+  });
+  </script>
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li><%= link_to "Hello #{current_user.first_name}" %></li>
+          <li><%= link_to "Sign out", sessions_path, method: :delete %></li>
+        <% else %>
+          <li><%= link_to "Sign in", new_session_path %></li>
+          <li><%= link_to "Sign up", new_user_path %></li>
+        <% end %>
+      </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+  <div class="container">
+    <% if notice %>
+        <div class="alert alert-success" role="alert">
+          <a href="#" class="alert-link"><%= notice %></a>
+        </div>
+      <% end %>
+    <% if alert %>
+        <div class="alert alert-danger" role="alert">
+          <a href="#" class="alert-link"><%= alert %></a>
+        </div>
+      <% end %>
+      <% if user_signed_in? %>
+      <div style="float: right;">
+        <button class="btn btn-primary" type="Sumbit">Add A New Idea</button>
+      </div>
+      <br>
+      <br>
+      <div id="newFormId" style="display: none;">
+        <%= render "/ideas/form" %>
+      </div>
+      <% end %>
+    </div>
+    <div class="container">
+
+    <%= yield %>
+  </div>
+</body>
+</html>

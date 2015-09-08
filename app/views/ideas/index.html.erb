@@ -1,0 +1,35 @@
+
+<% @ideas.each do |i| %>
+  <div>
+    <h2><%= link_to i.title, idea_path(i) %></h2>
+    <p><%= i.body %></p>
+    by <%= i.user_name%>
+
+    <% if user_signed_in? %>
+      <% if current_user.joind_idea?(i) %>
+        <%= link_to "un-join",
+                    idea_join_path(i, i.join_for(current_user)),
+                    class: "btn btn-warning", method: :delete %>
+      <% else %>
+        <%= link_to "Join", idea_joins_path(i),
+                      class: "btn btn-warning", method: :post %>
+      <% end %>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <% if current_user.liked_idea?(i) %>
+        <%= link_to "un-Like",
+                    idea_like_path(i, i.like_for(current_user)),
+                    class: "btn btn-success", method: :delete %>
+      <% else %>
+        <%= link_to "Like", idea_likes_path(i),
+                      class: "btn btn-success", method: :post %>
+      <% end %>
+    <% end %>
+    <div style="float: right;">
+    Members: <%= i.joins.count %> | Likes: <%= i.likes.count %>
+  </div>
+
+    <hr>
+  </div>
+<% end %>
